@@ -17,6 +17,7 @@
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <button
+        (click)="goToDetail(data)"
         class="button expanded"
         [class.success]="data.state === 'selling'"
         [class.secondary]="data.state === 'sold'">

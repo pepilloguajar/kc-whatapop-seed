@@ -5,6 +5,7 @@ import "rxjs/add/operator/switchMap";
 import { Product } from "../../models/product";
 import { ProductFilter } from "../../models/product-filter";
 import { ProductService } from "../../services/product.service";
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: "./app/components/products-collection/products-collection.component.html",
@@ -15,7 +16,9 @@ export class ProductsCollectionComponent implements OnDestroy, OnInit {
     private _products: Product[];
     private _filterStream$: Subject<ProductFilter> = new Subject;
 
-    constructor(private _productService: ProductService) { }
+    constructor(
+        private _myrouter: Router,
+        private _productService: ProductService) { }
 
     ngOnInit(): void {
         this._filterStream$
@@ -32,6 +35,10 @@ export class ProductsCollectionComponent implements OnDestroy, OnInit {
         this._filterStream$.next(filter);
     }
 
+    detalleProducto(producto: Product): void{
+        console.log(producto.id);
+        this._myrouter.navigate(['products', producto.id]);
+    }
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
     | Green Path                                                       |
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
