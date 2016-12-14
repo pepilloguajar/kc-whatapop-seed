@@ -10,6 +10,8 @@ import { BackendUri } from "../app.settings";
 @Injectable()
 export class ProductService {
 
+    private queryString: string;
+
     constructor(
         @Inject(BackendUri) private _backendUri: string,
         private _http: Http) { }
@@ -29,7 +31,7 @@ export class ProductService {
         |   _sort=publishedDate&_order=DESC                                |
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-        let queryString = "?_sort=publishedDate&_order=DESC";
+        this.queryString = `?_sort=publishedDate&_order=DESC`;
 
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
         | Red Path                                                         |
@@ -47,6 +49,17 @@ export class ProductService {
         |       category.id=x (siendo x el identificador de la categoría)  |
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+        if(filter){
+            console.log(filter);
+            if(typeof filter.text !== 'undefined'){
+                this.queryString = `${this.queryString}&q=${filter.text}`;
+            }
+            if(typeof filter.category !== 'undefined') {
+
+                this.queryString = `${this.queryString}&category.id=${filter.category}`;
+            }
+        }
+
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
         | Yellow Path                                                      |
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
@@ -62,7 +75,7 @@ export class ProductService {
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
         return this._http
-                   .get(`${this._backendUri}/products${queryString}`)
+                   .get(`${this._backendUri}/products${this.queryString}`)
                    .map((data: Response): Product[] => Product.fromJsonToList(data.json()));
     }
 
