@@ -10,7 +10,7 @@ export class ProductComponent {
 
     @Input() data: Product;
 
-    @Output() productoSeleccionado: EventEmitter<Product> = new EventEmitter;
+    @Output() productoSeleccionado: EventEmitter<Product> = new EventEmitter<Product>();
 
     goToDetail(product : Product){
         this.productoSeleccionado.emit(product);

@@ -18,7 +18,7 @@ import { Pipe, PipeTransform} from "@angular/core";
         name: "FromNowPipe"
 })
 export class PublicationDatePipe implements PipeTransform{
-    transform(date){
+    transform(date: number){
         return moment(date).startOf('hour').fromNow();
 
     }

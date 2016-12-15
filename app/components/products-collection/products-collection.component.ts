@@ -36,7 +36,6 @@ export class ProductsCollectionComponent implements OnDestroy, OnInit {
     }
 
     detalleProducto(producto: Product): void{
-        console.log(producto.id);
         this._myrouter.navigate(['products', producto.id]);
     }
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
