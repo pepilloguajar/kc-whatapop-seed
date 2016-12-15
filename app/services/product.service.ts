@@ -74,6 +74,12 @@ export class ProductService {
         |       state=x (siendo x el estado)                               |
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+        if(filter){
+            if(typeof filter.state !== 'undefined'){
+                this.queryString = `${this.queryString}&state=${filter.state}`;
+            }
+        }
+
         return this._http
                    .get(`${this._backendUri}/products${this.queryString}`)
                    .map((data: Response): Product[] => Product.fromJsonToList(data.json()));
