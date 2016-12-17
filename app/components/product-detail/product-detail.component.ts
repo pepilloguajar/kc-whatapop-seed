@@ -15,6 +15,7 @@ export class ProductDetailComponent implements OnDestroy, OnInit {
 
     private _product: Product;
     private _productSubscription: Subscription;
+    private _countLike = 0;
 
     constructor(
         private _productService: ProductService,
@@ -25,6 +26,19 @@ export class ProductDetailComponent implements OnDestroy, OnInit {
     ngOnInit(): void {
         this._route.data.forEach((data: { product: Product }) => this._product = data.product);
         window.scrollTo(0, 0);
+
+        // BROKEN WHITE PATH: LIKES
+        // Recupero, si es que lo hay, si he pulsado alguna vez en el boton de like, y obtengo su valor actual.
+        if (typeof(Storage) !== "undefined"){
+            if(localStorage.getItem(this._product.id) == 1){
+                this._countLike=1;
+            }else{
+                this._countLike = 0;
+            }
+        }else{
+            this._countLike = 3;
+        }
+
     }
 
     ngOnDestroy(): void {
@@ -60,5 +74,23 @@ export class ProductDetailComponent implements OnDestroy, OnInit {
 
     goBack(): void {
         window.history.back();
+    }
+
+    // BROKEN WHITE PATH: LIKES
+    // Capturo el click en el icono Like y asigno el valor que corresponta,
+    // guardándolo en el localStorage.
+    notificaLike(productoId: number){
+
+        if(typeof (Storage) !== "undefined"){
+            if(this._countLike){
+                localStorage.setItem(productoId.toString(),0);
+                this._countLike = 0;
+            }else{
+                localStorage.setItem(productoId.toString(),1);
+                this._countLike = 1;
+            }
+
+        }
+
     }
 }

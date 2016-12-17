@@ -20,7 +20,20 @@
             |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
             <span>Publicado {{ _product.publishedDate | FromNowPipe }}</span>
+
+            <!--BROKEN WHITE PATH: LIKES-->
+            <!--Creo el icono para mostrar/modificar el valor de si me gusta o no.
+                Además modifico el valor de la clase para modificar el icono.-->
+            <button
+                (click)="notificaLike(_product.id)"
+                class="icono">
+                <i class="fa" [ngClass]="{'fa-thumbs-up': _countLike === 1,
+                                'fa-thumbs-o-down': _countLike === 0,
+                                'hide':_countLike === 3}"
+                   aria-hidden="true"> </i>
+            </button>
         </p>
+
         <p [innerHtml]="_product.description"></p>
         <user-profile [userId]="_product.seller.id"></user-profile>
 
